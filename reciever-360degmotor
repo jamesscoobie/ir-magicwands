@@ -1,0 +1,40 @@
+
+
+const int MotorLive = 2;
+const int MotorGnd = 3;      
+const int Lidar =  13;      
+
+// variables will change:
+int State = 0;        
+int Step = 0;
+void setup() {
+  pinMode(LED_BUILTIN, OUTPUT);
+
+  pinMode(MotorLive, OUTPUT);
+  pinMode(MotorGnd, INPUT);
+
+  pinMode(Lidar, INPUT);
+}
+
+void loop() {
+  // read the state of the pushbutton value:
+  State = digitalRead(Lidar);
+
+  // check if the pushbutton is pressed. If it is, the buttonState is HIGH:
+  if (State == HIGH) {
+    digitalWrite(LED_BUILTIN, LOW);  // turn LED OFF
+    pinMode(MotorLive, OUTPUT);
+    pinMode(MotorGnd, INPUT);
+    digitalWrite(MotorLive, HIGH);
+    Step = Step + 1;
+  } else {
+    for (int thisPin = 0; thisPin < Step; thisPin++) {
+    digitalWrite(LED_BUILTIN, HIGH);  // turn LED ON
+    pinMode(MotorLive, INPUT);
+    pinMode(MotorGnd, OUTPUT);
+    digitalWrite(MotorGnd, HIGH);
+    }
+    Step = 0;
+  }
+}
+
